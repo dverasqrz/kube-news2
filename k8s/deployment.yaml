@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubenews
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: kubenews
+  template:
+    metadata:
+      labels:
+        app: kubenews
+    spec:
+      containers:
+      - name: kubenews
+        image: dverazs/kube-news:v1
+        env:
+        - name: DB_DATABASE
+          value: "kubedb"
+        - name: DB_USERNAME
+          value: "kubeuser"
+        - name: DB_PASSWORD
+          value: "HU7cxsbc"
+        - name: DB_HOST
+          value: "postgre"
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
