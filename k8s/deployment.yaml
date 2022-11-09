@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: kubenews
-        image: dverazs/kube-news:v1
+        image: dverazs/kube-news2:latest
         env:
         - name: DB_DATABASE
           value: "kubedb"
