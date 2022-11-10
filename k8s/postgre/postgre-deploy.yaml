@@ -20,10 +20,17 @@ spec:
             cpu: "500m"
         ports:
         - containerPort: 5432
+        envFrom:
+          - configMapRef:
+              name: api-configmap
         env:
         - name: POSTGRES_PASSWORD
-          value: "HU7cxsbc"
+          valueFrom:
+              secretKeyRef:
+                key: POSTGRES_PASSWORD
+                name: postgres-secret
         - name: POSTGRES_USER
-          value: "kubeuser"
-        - name: POSTGRES_DB
-          value: "kubedb"
+          valueFrom:
+              secretKeyRef:
+                key: POSTGRES_USER
+                name: postgres-secret
