@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: kubenews
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: kubenews
@@ -20,16 +20,30 @@ spec:
       containers:
       - name: kubenews
         image: dverazs/kube-news2:latest
+        envFrom:
+          - configMapRef:
+              name: api-configmap
         env:
-        - name: DB_DATABASE
-          value: "kubedb"
-        - name: DB_USERNAME
-          value: "kubeuser"
-        - name: DB_PASSWORD
-          value: "HU7cxsbc"
-        - name: DB_HOST
-          value: "postgre"
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+              secretKeyRef:
+                key: POSTGRES_PASSWORD
+                name: postgres-secret
+        - name: POSTGRES_USER
+          valueFrom:
+              secretKeyRef:
+                key: POSTGRES_USER
+                name: postgres-secret
         resources:
           limits:
             memory: "128Mi"
             cpu: "500m"
+        readinessProbe: # ready to receive requests
+          httpGet:
+            path: /metrics
+            port: 80
+            scheme: HTTP
+          initialDelaySeconds: 5
+          timeoutSeconds: 2
+          failureThreshold: 3
+          periodSeconds: 10
