@@ -53,13 +53,13 @@ jobs:
       with:
         # Path to the manifest files which will be used for deployment.
         manifests: |
-          k8s/deployment.yaml
-          k8s/horizAutoScale.yaml
           k8s/api-configmap.yaml
+          k8s/postgre/postgres-secret.yaml
+          k8s/deployment.yaml          
           k8s/servicokubenws.yaml
           k8s/postgre/postgre-deploy.yaml
-          k8s/postgre/postgres-secret.yaml
           k8s/postgre/servpostgre.yaml
+          k8s/horizAutoScale.yaml
         # Fully qualified resource URL of the image(s) to be used for substitutions on the manifest files Example: contosodemo.azurecr.io/helloworld:test
         images: dverazs/kube-news2:${{github.run_number}}
 
